@@ -34,8 +34,10 @@ directamente desde una celda como una fórmula:
 =fetchUvaValue("2024-12-10")
 
 # por primer día hábil a partir del 10
-=fetchUvaValue(getFirstWorkingDayAfterTenth(12, 2024)
+=fetchUvaValue(getFirstWorkingDayAfterTenth(12, 2024))
 ```
+
+**Nota**: Las funciones incluyen validación de parámetros y reportan errores específicos (formato de fecha incorrecto, errores HTTP, etc.). La función de días hábiles solo considera fines de semana, no feriados nacionales.
 
 ![Ejemplo](./ejemplo.gif)
 
