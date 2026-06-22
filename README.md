@@ -30,7 +30,7 @@ directamente desde una celda como una fórmula:
 =fetchUvaValue("2024-12-10")
 
 # por primer día hábil a partir del 10
-=fetchUvaValue(getFirstWorkingDayAfterTenth(12, 2024)
+=fetchUvaValue(getFirstWorkingDayAfterTenth(12, 2024))
 ```
 
 ![Ejemplo](./ejemplo.gif)
