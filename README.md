@@ -53,6 +53,11 @@ clasp push                # sube uva.gs y appsscript.json
 El `SCRIPT_ID` está en la URL del proyecto de Apps Script. El manifiesto
 `appsscript.json` fija la zona horaria en `America/Argentina/Buenos_Aires`.
 
+Este repo es la fuente de verdad: el flujo normal es editar acá y `clasp
+push`. `clasp clone` y `clasp pull` traen los archivos remotos y pueden
+sobrescribir los locales, usalos solo en un directorio vacío o para la
+configuración inicial.
+
 ## Próximos pasos
 
 - `getFirstWorkingDayAfterTenth` salta sábados y domingos, pero no feriados
