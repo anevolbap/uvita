@@ -36,6 +36,14 @@ Por el primer día hábil a partir del 10 de un mes:
 =fetchUvaValue(getFirstWorkingDayAfterTenth(12, 2024))
 ```
 
+`getFirstWorkingDayAfterTenth` salta sábados, domingos y feriados argentinos.
+Los feriados se consultan en [argentinadatos](https://argentinadatos.com/) y se
+toman todos los días listados (feriados y días no laborables). Si esa consulta
+falla, solo se saltan los fines de semana.
+
+`fetchUvaValue` y la lista de feriados se cachean 6 horas con `CacheService`,
+así una hoja con muchas celdas no repite el mismo pedido en cada recálculo.
+
 ![Ejemplo](./ejemplo.gif)
 
 ## Desarrollo con clasp
@@ -47,7 +55,7 @@ mediante [clasp](https://github.com/google/clasp):
 npm install -g @google/clasp
 clasp login
 clasp clone <SCRIPT_ID>   # genera .clasp.json (ignorado por git)
-clasp push                # sube uva.gs y appsscript.json
+clasp push                # sube uva.gs, tests.gs y appsscript.json
 ```
 
 El `SCRIPT_ID` está en la URL del proyecto de Apps Script. El manifiesto
@@ -58,16 +66,17 @@ push`. `clasp clone` y `clasp pull` traen los archivos remotos y pueden
 sobrescribir los locales, usalos solo en un directorio vacío o para la
 configuración inicial.
 
-## Próximos pasos
+## Tests
 
-- `getFirstWorkingDayAfterTenth` salta sábados y domingos, pero no feriados
-  argentinos. La API igual devuelve el último valor disponible para cualquier
-  fecha, así que el valor consultado no cambia, solo la fecha que se registra.
-  Si hace falta exactitud, agregar una lista de feriados.
-- Cachear la respuesta con `CacheService` (clave por fecha) para no repetir el
-  `UrlFetchApp` en cada recálculo y respetar la cuota diaria.
-- Agregar tests para `getFirstWorkingDayAfterTenth` (lógica pura, fácil de
-  verificar).
+`tests.gs` prueba la lógica pura de fechas (sin red ni servicios de Apps
+Script). Para correrlos, abrir el editor de Apps Script, elegir `runTests` y
+presionar Run, o desde la terminal:
+
+``` shell
+clasp run runTests
+```
+
+El resultado (PASS/FAIL por caso) queda en el log de ejecución.
 
 ## Links relevantes
 
