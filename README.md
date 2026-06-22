@@ -38,8 +38,8 @@ Por el primer día hábil a partir del 10 de un mes:
 
 `getFirstWorkingDayAfterTenth` salta sábados, domingos y feriados argentinos.
 Los feriados se consultan en [argentinadatos](https://argentinadatos.com/) y se
-toman todos los días listados (feriados y días no laborables). Si esa consulta
-falla, solo se saltan los fines de semana.
+toman todos los feriados que devuelve la API (inamovibles, trasladables y
+puentes). Si esa consulta falla, solo se saltan los fines de semana.
 
 `fetchUvaValue` y la lista de feriados se cachean 6 horas con `CacheService`,
 así una hoja con muchas celdas no repite el mismo pedido en cada recálculo.

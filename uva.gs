@@ -97,9 +97,9 @@ function toYmd_(date) {
 
 /**
  * Returns the set of Argentine holiday dates for a year, from
- * api.argentinadatos.com. Cached for 6 hours. Every listed day is included
- * (feriados and días no laborables). Returns an empty set on error so the
- * caller falls back to skipping weekends only.
+ * api.argentinadatos.com. Cached for 6 hours. Includes every feriado the API
+ * returns (inamovible, trasladable, puente). Returns an empty set on error so
+ * the caller falls back to skipping weekends only.
  * @param {number} year Full year
  * @return {!Set<string>} Set of 'YYYY-MM-DD' dates
  * @private
