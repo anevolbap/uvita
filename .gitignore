@@ -1,0 +1,5 @@
+# editor backups
+*~
+
+# clasp local config (contains your own script ID)
+.clasp.json
