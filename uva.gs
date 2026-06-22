@@ -1,28 +1,36 @@
 /**
  * Fetches the UVA value from BCRA API for a specific date
- * @param {string} date The date in YYYY-MM-DD format
+ * @param {string|Date} date The date in YYYY-MM-DD format, or a Date (e.g. a date cell)
  * @return {number|string} The UVA value or error message
  * @customfunction
  */
 function fetchUvaValue(date) {
   const API_URL = 'https://api.bcra.gob.ar/estadisticas/v4.0/monetarias/31?';
+  const day = date instanceof Date
+    ? Utilities.formatDate(date, 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd')
+    : date;
 
   try {
-    const response = UrlFetchApp.fetch(`${API_URL}desde=${date}&hasta=${date}`, {
+    const url = `${API_URL}desde=${encodeURIComponent(day)}&hasta=${encodeURIComponent(day)}`;
+    const response = UrlFetchApp.fetch(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
       muteHttpExceptions: true
     });
 
-    const jsonResponse = JSON.parse(response.getContentText());
+    const code = response.getResponseCode();
+    if (code !== 200) {
+      Logger.log(`BCRA API returned HTTP ${code}: ${response.getContentText()}`);
+      return `Error: API returned HTTP ${code}`;
+    }
 
-    if (!jsonResponse.results || !jsonResponse.results.length || !jsonResponse.results[0].detalle.length) {
+    const jsonResponse = JSON.parse(response.getContentText());
+    const detalle = jsonResponse.results && jsonResponse.results[0] && jsonResponse.results[0].detalle;
+
+    if (!detalle || !detalle.length) {
       return 'No data available for this date';
     }
 
-    return jsonResponse.results[0].detalle[0].valor;
+    return detalle[0].valor;
 
   } catch (error) {
     Logger.log(`Error fetching UVA value: ${error.toString()}`);
