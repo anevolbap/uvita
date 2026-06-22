@@ -39,7 +39,11 @@ function fetchUvaValue(date) {
 }
 
 /**
- * Returns the first working day (Mon-Fri) on or after the 10th of the specified month and year
+ * Returns the first weekday (Mon-Fri) on or after the 10th of the given month.
+ * If the 10th is already a weekday it is returned unchanged. Argentine holidays
+ * (feriados) are NOT skipped. Assumes the script timezone is
+ * America/Argentina/Buenos_Aires, since toISOString() is only safe for negative
+ * UTC offsets.
  * @param {number} month Month (1-12)
  * @param {number} year Full year (e.g., 2024)
  * @return {string} Date in YYYY-MM-DD format

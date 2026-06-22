@@ -3,11 +3,11 @@
 Uso una hoja de cálculo de Google para registrar los pagos de mi
 crédito hipotecario UVA (Unidad de Valor Adquisitivo). Para
 automatizar la consulta del valor UVA correspondiente al primer día
-hábil después del 10 de cada mes, ensayé una solución utilizando [Apps
+hábil a partir del 10 de cada mes, ensayé una solución utilizando [Apps
 Script](https://developers.google.com/apps-script?hl=es-419). Esta
 herramienta permite conectar una celda directamente con la [API de
-Principales Variables del
-BCRA](https://www.bcra.gob.ar/Catalogo/apis.asp?fileName=principales-variables-v2&sectionName=Estad%EDsticas).
+Estadísticas Monetarias del
+BCRA](https://principales-variables.bcra.apidocs.ar/).
 
 ## Ejemplos
 
@@ -24,12 +24,15 @@ curl "$URL/$ENDPOINT/$ID?desde=$FECHA&hasta=$FECHA"
 
 ### Con Apps Script
 Las funciones auxiliares del archivo `uva.gs` se pueden llamar
-directamente desde una celda como una fórmula:
-```
-# por fecha
-=fetchUvaValue("2024-12-10")
+directamente desde una celda como una fórmula.
 
-# por primer día hábil a partir del 10
+Por fecha:
+``` text
+=fetchUvaValue("2024-12-10")
+```
+
+Por el primer día hábil a partir del 10 de un mes:
+``` text
 =fetchUvaValue(getFirstWorkingDayAfterTenth(12, 2024))
 ```
 
@@ -49,6 +52,17 @@ clasp push                # sube uva.gs y appsscript.json
 
 El `SCRIPT_ID` está en la URL del proyecto de Apps Script. El manifiesto
 `appsscript.json` fija la zona horaria en `America/Argentina/Buenos_Aires`.
+
+## Próximos pasos
+
+- `getFirstWorkingDayAfterTenth` salta sábados y domingos, pero no feriados
+  argentinos. La API igual devuelve el último valor disponible para cualquier
+  fecha, así que el valor consultado no cambia, solo la fecha que se registra.
+  Si hace falta exactitud, agregar una lista de feriados.
+- Cachear la respuesta con `CacheService` (clave por fecha) para no repetir el
+  `UrlFetchApp` en cada recálculo y respetar la cuota diaria.
+- Agregar tests para `getFirstWorkingDayAfterTenth` (lógica pura, fácil de
+  verificar).
 
 ## Links relevantes
 
