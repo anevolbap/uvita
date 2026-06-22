@@ -5,25 +5,24 @@
  * @customfunction
  */
 function fetchUvaValue(date) {
-  const API_URL = 'https://api.bcra.gob.ar/estadisticas/v2.0/datosvariable/31/';
+  const API_URL = 'https://api.bcra.gob.ar/estadisticas/v4.0/monetarias/31?';
 
   try {
-    const response = UrlFetchApp.fetch(`${API_URL}${date}/${date}`, {
+    const response = UrlFetchApp.fetch(`${API_URL}desde=${date}&hasta=${date}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
-      validateHttpsCertificates: false,
       muteHttpExceptions: true
     });
 
     const jsonResponse = JSON.parse(response.getContentText());
-    
-    if (!jsonResponse.results || !jsonResponse.results.length) {
+
+    if (!jsonResponse.results || !jsonResponse.results.length || !jsonResponse.results[0].detalle.length) {
       return 'No data available for this date';
     }
 
-    return jsonResponse.results[0].valor;
+    return jsonResponse.results[0].detalle[0].valor;
 
   } catch (error) {
     Logger.log(`Error fetching UVA value: ${error.toString()}`);
