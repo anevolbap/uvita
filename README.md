@@ -35,6 +35,21 @@ directamente desde una celda como una fórmula:
 
 ![Ejemplo](./ejemplo.gif)
 
+## Desarrollo con clasp
+
+El código vive en este repo y se sincroniza con el editor de Apps Script
+mediante [clasp](https://github.com/google/clasp):
+
+``` shell
+npm install -g @google/clasp
+clasp login
+clasp clone <SCRIPT_ID>   # genera .clasp.json (ignorado por git)
+clasp push                # sube uva.gs y appsscript.json
+```
+
+El `SCRIPT_ID` está en la URL del proyecto de Apps Script. El manifiesto
+`appsscript.json` fija la zona horaria en `America/Argentina/Buenos_Aires`.
+
 ## Links relevantes
 
 - https://github.com/Jaldekoa/BCRA-Wrapper/
