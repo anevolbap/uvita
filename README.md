@@ -14,16 +14,12 @@ BCRA](https://www.bcra.gob.ar/Catalogo/apis.asp?fileName=principales-variables-v
 ### A mano
 Para consultar el valor de la UVA del día mediante la API del BCRA, desde la terminal:
 ``` shell
-URL="https://api.bcra.gob.ar/estadisticas/v2.0" # versión nueva
-ENDPOINT="datosvariable" # principales variables
+URL="https://api.bcra.gob.ar/estadisticas/v4.0"
+ENDPOINT="monetarias"
 ID=31 # variable UVA
 FECHA=$(date +%Y-%m-%d) # fecha actual
 
-# Con el certificado
-curl --cacert bcra-gob-ar.pem $URL/$ENDPOINT/$ID/$FECHA/$FECHA
-
-# Habilitando conexiones inseguras (¡malo, muy malo!)
-curl -k $URL/$ENDPOINT/$ID/$FECHA/$FECHA
+curl "$URL/$ENDPOINT/$ID?desde=$FECHA&hasta=$FECHA"
 ```
 
 ### Con Apps Script
